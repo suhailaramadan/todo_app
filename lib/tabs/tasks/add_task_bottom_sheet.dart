@@ -1,8 +1,12 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/firebase_functions.dart';
+import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
 import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
+import 'package:todo_app/tabs/tasks/tasks_provider.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
@@ -15,12 +19,13 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   TextEditingController titleControl = TextEditingController();
   TextEditingController descriptionControl = TextEditingController();
   DateTime selectedDate = DateTime.now();
-  DateFormat dateFormat=DateFormat("dd/MM/yyyy");
-  GlobalKey<FormState> formKey=GlobalKey<FormState>();
+  DateFormat dateFormat = DateFormat("dd/MM/yyyy");
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+
     return Container(
-      height: MediaQuery.of(context).size.height*.55,
+      height: MediaQuery.of(context).size.height * .55,
       padding: EdgeInsets.all(15),
       child: Form(
         key: formKey,
@@ -37,7 +42,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               controller: titleControl,
               hintText: "Enter task title",
               validator: (value) {
-                if(value==null|| value.trim().isEmpty){
+                if (value == null || value.trim().isEmpty) {
                   return "Title can not be empty";
                 }
                 return null;
@@ -48,7 +53,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               hintText: "Enter task description",
               maxLine: 5,
               validator: (value) {
-                if(value==null||value.trim().isEmpty){
+                if (value == null || value.trim().isEmpty) {
                   return "Description can not be empty";
                 }
                 return null;
@@ -68,19 +73,18 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               height: 10,
             ),
             InkWell(
-              onTap: ()async { 
-              DateTime? dateTime=await showDatePicker(
-                  context: context,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(2030),
-                  initialDate: selectedDate,
-                  initialEntryMode: DatePickerEntryMode.calendarOnly);
-                  if(dateTime!=null){
-                    selectedDate=dateTime;
-                    setState(() {
-                      
-                    });
-                  }},
+              onTap: () async {
+                DateTime? dateTime = await showDatePicker(
+                    context: context,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2030),
+                    initialDate: selectedDate,
+                    initialEntryMode: DatePickerEntryMode.calendarOnly);
+                if (dateTime != null) {
+                  selectedDate = dateTime;
+                  setState(() {});
+                }
+              },
               child: Text(
                 dateFormat.format(selectedDate),
                 style: Theme.of(context)
@@ -89,17 +93,38 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     ?.copyWith(fontWeight: FontWeight.w500),
               ),
             ),
-            SizedBox(height:20,),
-            DefaultElevatedBottom(lable:  "submit", onPressed:(){ 
-              if(formKey.currentState!.validate()){
-                addTask();}
-            })
+            SizedBox(
+              height: 20,
+            ),
+            DefaultElevatedBottom(
+                lable: "submit",
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    addTask();
+                  }
+                })
           ],
         ),
       ),
     );
   }
-  void addTask(){
 
+  void addTask() {
+    FirebaseFunctions.addTaskToFirestore(
+      TaskModel(
+            title: titleControl.text,
+            date: selectedDate,
+            description: descriptionControl.text
+      )
+      ).timeout(
+        Duration(microseconds: 500),
+        onTimeout: () {
+          Navigator.of(context).pop();
+          Provider.of<TasksProvider>(context,listen: false).getTasks();
+          print("Task added");
+    }).catchError((error) {
+      print("Error");
+      print(error);
+    });
   }
 }
