@@ -1,8 +1,8 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/defaultTextFormField.dart';
-import 'package:todo_app/default_elevated_bottom.dart';
+import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
+import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
