@@ -6,6 +6,7 @@ import 'package:todo_app/firebase_functions.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
 import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
+import 'package:todo_app/tabs/tasks/edit_task.dart';
 import 'package:todo_app/tabs/tasks/tasks_provider.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
@@ -14,7 +15,6 @@ class AddTaskBottomSheet extends StatefulWidget {
   @override
   State<AddTaskBottomSheet> createState() => _AddTaskBottomSheetState();
 }
-
 class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   TextEditingController titleControl = TextEditingController();
   TextEditingController descriptionControl = TextEditingController();
@@ -23,7 +23,6 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-
     return Container(
       height: MediaQuery.of(context).size.height * .55,
       padding: EdgeInsets.all(15),
@@ -110,18 +109,15 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
-    FirebaseFunctions.addTaskToFirestore(
-      TaskModel(
+    FirebaseFunctions.addTaskToFirestore(TaskModel(
             title: titleControl.text,
             date: selectedDate,
             description: descriptionControl.text
-      )
-      ).timeout(
-        Duration(microseconds: 500),
-        onTimeout: () {
-          Navigator.of(context).pop();
-          Provider.of<TasksProvider>(context,listen: false).getTasks();
-          print("Task added");
+            ))
+        .timeout(Duration(microseconds: 500), onTimeout: () {
+      Navigator.of(context).pop();
+      Provider.of<TasksProvider>(context, listen: false).getTasks();
+      print("Task added");
     }).catchError((error) {
       print("Error");
       print(error);

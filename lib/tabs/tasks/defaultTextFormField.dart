@@ -4,13 +4,16 @@ class DefaultTextFormField extends StatelessWidget {
   DefaultTextFormField(
       {super.key,
       required this.controller,
-      required this.hintText,
+      this.hintText,
       this.maxLine,
-      this.validator});
+      this.validator,
+      this.suffixicon
+      });
   TextEditingController controller = TextEditingController();
-  String hintText;
-  int? maxLine;
-  String? Function(String?)? validator;
+  final String? hintText;
+  final int? maxLine;
+  final String? Function(String?)? validator;
+  final suffixicon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -20,8 +23,10 @@ class DefaultTextFormField extends StatelessWidget {
           hintStyle: Theme.of(context)
               .textTheme
               .titleMedium
-              ?.copyWith(fontWeight: FontWeight.w300)),
+              ?.copyWith(fontWeight: FontWeight.w400),
+              suffixIcon: suffixicon,),
       maxLines: maxLine,validator:validator,
+      
     );
   }
 }

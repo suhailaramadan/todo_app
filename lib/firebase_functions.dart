@@ -23,4 +23,17 @@ class FirebaseFunctions {
     CollectionReference<TaskModel> taskscollection=getTasksCollection();
   return taskscollection.doc(taskId).delete();
   }
+
+  static Future<void> editTaskInFirestore(TaskModel task)async{
+    if(task.id!=null&&task.id.isNotEmpty){
+    CollectionReference<TaskModel>taskscollection=getTasksCollection();
+    DocumentReference<TaskModel>docRefr=taskscollection.doc(task.id);
+    //task.id=docRefr.id;
+
+    return docRefr.update(task.toJeson());
+  
+    }
+   // else return;
+  }
+
 }

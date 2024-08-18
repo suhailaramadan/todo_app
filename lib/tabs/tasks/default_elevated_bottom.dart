@@ -13,8 +13,13 @@ class DefaultElevatedBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(lable,style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w400,color: AppTheme.white),),
-      style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primary,
+      child: Text(
+        lable,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontSize: 24, fontWeight: FontWeight.w500, color: AppTheme.white),
+      ),
+      style: ElevatedButton.styleFrom(
+          backgroundColor: AppTheme.primary,
           fixedSize: Size(MediaQuery.of(context).size.width, 52)),
     );
   }

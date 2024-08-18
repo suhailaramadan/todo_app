@@ -5,7 +5,7 @@ class AppTheme {
   static Color backgroundLight = Color(0xFFDFECDB);
   static Color backgroundDark = Color(0xFF1E1E1E);
   static Color white = Color(0xFFFFFFFF);
-  static Color grey = Color(0xFFC8C9CB);
+  static Color grey =  Color.fromARGB(125, 0, 0, 0);
   static Color green = Color(0xFF61E757);
   static Color red = Color(0xFFEC4B4B);
   static ThemeData lightTheme = ThemeData(
