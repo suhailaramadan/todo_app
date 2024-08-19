@@ -33,6 +33,7 @@ class _EditTaskState extends State<EditTask> {
     titleControl.text = args.title;
     descriptionControl.text = args.desc;
     widget.id=args.id;
+    widget.selectedDate=args.date;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -89,17 +90,19 @@ class _EditTaskState extends State<EditTask> {
                           ),
                           InkWell(
                             onTap: () async {
+                              
                               DateTime? dateTime = await showDatePicker(
                                   context: context,
-                                  firstDate: args.date,
+                                  firstDate:args.date.subtract(Duration(days:30)),
                                   lastDate:
-                                      DateTime.now().add(Duration(days: 30)),
+                                      args.date.add(Duration(days: 360)),
                                       
-                                  initialDate: args.date,
+                                  initialDate:widget.selectedDate,
                                   initialEntryMode:
                                       DatePickerEntryMode.calendarOnly);
                               if (dateTime != null) {
-                                widget.selectedDate = dateTime;
+                                args.date= dateTime;
+                                print("ob");
                                 setState(() {});
                               }
                             },
