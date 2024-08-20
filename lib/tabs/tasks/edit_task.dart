@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
@@ -137,14 +138,28 @@ class _EditTaskState extends State<EditTask> {
             description: descriptionControl.text),
       ).timeout(Duration(microseconds: 500), onTimeout: () {
         Navigator.of(context).pop();
-        print("poped");
-
         Provider.of<TasksProvider>(context, listen: false).getTasks();
+        Fluttertoast.showToast(
+        msg: "Task edited",
+        toastLength: Toast.LENGTH_LONG,
+        
+        timeInSecForIosWeb: 1,
+        backgroundColor:AppTheme.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
 
-        print("Task edit");
+        
       }).catchError((error) {
-        print("Error");
-        print(error);
+        Fluttertoast.showToast(
+        msg: "Task wrong",
+        toastLength: Toast.LENGTH_LONG,
+        
+        timeInSecForIosWeb: 1,
+        backgroundColor:AppTheme.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
       });
     }
 }

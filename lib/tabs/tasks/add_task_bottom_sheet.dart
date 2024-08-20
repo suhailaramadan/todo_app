@@ -1,7 +1,9 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/firebase_functions.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
@@ -117,10 +119,25 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         .timeout(Duration(microseconds: 500), onTimeout: () {
       Navigator.of(context).pop();
       Provider.of<TasksProvider>(context, listen: false).getTasks();
-      print("Task added");
+      Fluttertoast.showToast(
+        msg: "Task added successfully",
+        toastLength: Toast.LENGTH_LONG,
+        
+        timeInSecForIosWeb: 5,
+        backgroundColor:AppTheme.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
     }).catchError((error) {
-      print("Error");
-      print(error);
+      Fluttertoast.showToast(
+        msg: "Something went wrong!",
+        toastLength: Toast.LENGTH_LONG,
+        
+        timeInSecForIosWeb: 5,
+        backgroundColor:AppTheme.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
     });
   }
 }
