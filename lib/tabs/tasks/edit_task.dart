@@ -31,8 +31,8 @@ class _EditTaskState extends State<EditTask> {
   Widget build(BuildContext context) {
     TextFieldArgs args =
         ModalRoute.of(context)!.settings.arguments as TextFieldArgs;
-    if(titleControl.text.isEmpty) titleControl.text = args.title;
-    if(descriptionControl.text.isEmpty) descriptionControl.text = args.desc;
+    titleControl.text = args.title;
+    descriptionControl.text = args.desc;
     widget.id=args.id;
     widget.selectedDate=args.date;
     return SafeArea(
