@@ -1,0 +1,16 @@
+{
+    "language":"Language",
+    "mode":"Dark Mode",
+    "submit":"Submit",
+    "change":"Save Changes",
+    "title":"Enter task title",
+    "desc":"Enter task description",
+    "seclectTime":"Selected date",
+    "editTask":"Edit Task",
+    "addTask":"Add new task",
+    "validateTitle":"Title can not be empty",
+    "validateDesc":"Description can not be empty",
+    "msgAdd":"Task added successfully",
+    "msgEdit":"Task edited",
+    "msgWrong":"Something went wrong!"
+}

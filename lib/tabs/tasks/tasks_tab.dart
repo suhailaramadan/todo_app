@@ -21,15 +21,18 @@ class TasksTab extends StatelessWidget {
               Container(color: AppTheme.primary, height: 150),
               PositionedDirectional(
                   top: 30,
-                  start: 10,
-                  child: Text("To Do List",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: AppTheme.white, fontSize: 28))),
+                  start: 150,
+                  child: Align(
+                    child: Text("To Do List",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(color: AppTheme.white, fontSize: 28)),
+                  )),
               Padding(
                 padding: const EdgeInsets.only(top: 110),
                 child: EasyInfiniteDateTimeLine(
+                  locale: settingsProvider.Language=="ar"?"ar":"en",
                     dayProps: EasyDayProps(
                         height: 80,
                         width: 60,

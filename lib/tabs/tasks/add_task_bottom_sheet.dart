@@ -1,4 +1,3 @@
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -9,9 +8,8 @@ import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
 import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
-import 'package:todo_app/tabs/tasks/edit_task.dart';
 import 'package:todo_app/tabs/tasks/tasks_provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
 
@@ -27,87 +25,89 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);
-    return Container(
-      color:settingsProvider.isDark?AppTheme.black:AppTheme.white ,
-      height: MediaQuery.of(context).size.height * .55,
-      padding: EdgeInsets.all(15),
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Text(
-              "Add new task",
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            DefaultTextFormField(
-              controller: titleControl,
-              hintText: "Enter task title",
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return "Title can not be empty";
-                }
-                return null;
-              },
-            ),
-            DefaultTextFormField(
-              controller: descriptionControl,
-              hintText: "Enter task description",
-              maxLine: 5,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return "Description can not be empty";
-                }
-                return null;
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Select Date",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w400,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () async {
-                DateTime? dateTime = await showDatePicker(
-                    context: context,
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2030),
-                    initialDate: selectedDate,
-                    initialEntryMode: DatePickerEntryMode.calendarOnly);
-                if (dateTime != null) {
-                  selectedDate = dateTime;
-                  setState(() {});
-                }
-              },
-              child: Text(
-                dateFormat.format(selectedDate),
+    return SingleChildScrollView(
+      child: Container(
+        color:settingsProvider.isDark?AppTheme.black:AppTheme.white ,
+        height: MediaQuery.of(context).size.height * .6,
+        padding: EdgeInsets.all(15),
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              Text(
+                AppLocalizations.of(context)!.addTask,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              DefaultTextFormField(
+                controller: titleControl,
+                hintText: AppLocalizations.of(context)!.title,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return AppLocalizations.of(context)!.validateTitle;
+                  }
+                  return null;
+                },
+              ),
+              DefaultTextFormField(
+                controller: descriptionControl,
+                hintText:AppLocalizations.of(context)!.desc,
+                maxLine: 5,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return AppLocalizations.of(context)!.validateDesc;
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                AppLocalizations.of(context)!.seclectTime,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w500,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
+                    ?.copyWith(fontWeight:settingsProvider.Language=="ar"?FontWeight.w600: FontWeight.w400,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            DefaultElevatedBottom(
-                lable: "submit",
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    addTask();
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () async {
+                  DateTime? dateTime = await showDatePicker(
+                      context: context,
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2030),
+                      initialDate: selectedDate,
+                      initialEntryMode: DatePickerEntryMode.calendarOnly);
+                  if (dateTime != null) {
+                    selectedDate = dateTime;
+                    setState(() {});
                   }
-                })
-          ],
+                },
+                child: Text(
+                  dateFormat.format(selectedDate),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w500,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              DefaultElevatedBottom(
+                  lable:AppLocalizations.of(context)!.submit,
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      addTask();
+                    }
+                  })
+            ],
+          ),
         ),
       ),
     );
@@ -123,7 +123,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
       Navigator.of(context).pop();
       Provider.of<TasksProvider>(context, listen: false).getTasks();
       Fluttertoast.showToast(
-        msg: "Task added successfully",
+        msg:AppLocalizations.of(context)!.msgAdd,
         toastLength: Toast.LENGTH_LONG,
         
         timeInSecForIosWeb: 5,
@@ -133,7 +133,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     );
     }).catchError((error) {
       Fluttertoast.showToast(
-        msg: "Something went wrong!",
+        msg:AppLocalizations.of(context)!.msgWrong,
         toastLength: Toast.LENGTH_LONG,
         
         timeInSecForIosWeb: 5,

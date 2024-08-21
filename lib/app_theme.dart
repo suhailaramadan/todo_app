@@ -27,9 +27,9 @@ class AppTheme {
     ),
     textTheme: TextTheme(
         titleMedium: TextStyle(
-            fontWeight: FontWeight.bold, color:AppTheme.black, fontSize: 18),
+            fontWeight: FontWeight.bold, color:AppTheme.black, fontSize: 20),
         titleSmall: TextStyle(
-            color: AppTheme.grey, fontWeight: FontWeight.w700, fontSize: 18)),
+            color: AppTheme.grey, fontWeight: FontWeight.w700, fontSize: 20)),
   );
 
   static ThemeData darkTheme = ThemeData(
