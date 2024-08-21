@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/firebase_functions.dart';
 import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
 import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
 import 'package:todo_app/tabs/tasks/edit_task.dart';
@@ -25,7 +26,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);
     return Container(
+      color:settingsProvider.isDark?AppTheme.black:AppTheme.white ,
       height: MediaQuery.of(context).size.height * .55,
       padding: EdgeInsets.all(15),
       child: Form(
@@ -34,7 +37,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           children: [
             Text(
               "Add new task",
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
             ),
             SizedBox(
               height: 15,
@@ -68,7 +71,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w400),
+                  ?.copyWith(fontWeight: FontWeight.w400,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
             ),
             SizedBox(
               height: 10,
@@ -91,7 +94,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w500),
+                    ?.copyWith(fontWeight: FontWeight.w500,color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
               ),
             ),
             SizedBox(

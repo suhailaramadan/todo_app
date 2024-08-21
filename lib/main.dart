@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/home_screen.dart';
+import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/edit_task.dart';
 import 'package:todo_app/tabs/tasks/tasks_provider.dart';
 
@@ -14,10 +15,16 @@ void main() async {
   FirebaseFirestore.instance.settings =
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(
-      ChangeNotifierProvider(
+    
+        MultiProvider(providers: 
+        [ChangeNotifierProvider(
         create: (_) =>
-          TasksProvider()..getTasks(),
-        child: TodoApp()));
+          TasksProvider()..getTasks(),),
+          ChangeNotifierProvider(
+            create:(_)=>
+            SettingsProvider()
+          )],
+          child: TodoApp()));
 }
 
 class TodoApp extends StatelessWidget {

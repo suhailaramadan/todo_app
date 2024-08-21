@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/firebase_functions.dart';
 import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
 import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
 import 'package:todo_app/tabs/tasks/tasks_item.dart';
@@ -29,11 +30,12 @@ class _EditTaskState extends State<EditTask> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);
     TextFieldArgs args =
         ModalRoute.of(context)!.settings.arguments as TextFieldArgs;
-    titleControl.text = args.title;
-    descriptionControl.text = args.desc;
-    widget.id=args.id;
+    if(titleControl.text.isEmpty)titleControl.text = args.title;
+    if(descriptionControl.text.isEmpty)descriptionControl.text = args.desc;
+  widget.id=args.id;
     widget.selectedDate=args.date;
     return SafeArea(
       child: Scaffold(
@@ -50,7 +52,7 @@ class _EditTaskState extends State<EditTask> {
           children: [
             Container(
               height: 100,
-              color: AppTheme.primary,
+              color:AppTheme.primary,
             ),
             SingleChildScrollView(
               child: Padding(
@@ -60,7 +62,7 @@ class _EditTaskState extends State<EditTask> {
                     height: MediaQuery.of(context).size.height * .7,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: AppTheme.white,
+                      color:settingsProvider.isDark?AppTheme.black:AppTheme.white,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -68,7 +70,7 @@ class _EditTaskState extends State<EditTask> {
                         children: [
                           Text(
                             "Edit Task",
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
                           ),
                           SizedBox(
                             height: 10,
@@ -84,7 +86,7 @@ class _EditTaskState extends State<EditTask> {
                           ),
                           Text(
                             "Selected time",
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: settingsProvider.isDark?AppTheme.white:AppTheme.black),
                           ),
                           SizedBox(
                             height: 10,
@@ -103,12 +105,11 @@ class _EditTaskState extends State<EditTask> {
                                       DatePickerEntryMode.calendarOnly);
                               if (dateTime != null) {
                                 args.date= dateTime;
-                                print("ob");
                                 setState(() {});
                               }
                             },
                             child: Text(widget.dateFormat.format(args.date),
-                                style: Theme.of(context).textTheme.titleMedium),
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: settingsProvider.isDark?AppTheme.white:AppTheme.black)),
                           ),
                           const SizedBox(
                             height: 50,

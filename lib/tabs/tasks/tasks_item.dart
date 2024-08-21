@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/firebase_functions.dart';
 import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/edit_task.dart';
 import 'package:todo_app/tabs/tasks/tasks_provider.dart';
 
@@ -21,6 +22,7 @@ class TaskItem extends StatefulWidget {
 class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);
     TasksProvider tasksProvider = Provider.of<TasksProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
@@ -69,7 +71,7 @@ class _TaskItemState extends State<TaskItem> {
             padding: EdgeInsets.all(8),
             height: 110,
             decoration: BoxDecoration(
-                color: AppTheme.white,
+                color:settingsProvider.isDark?AppTheme.black:AppTheme.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -111,12 +113,14 @@ class _TaskItemState extends State<TaskItem> {
                           widget.taskModel.description,
                           style: widget.taskModel.isDone == true
                               ? Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
-                                  ?.copyWith(color: Color(0xFFC8C9CB))
-                              : Theme.of(context).textTheme.titleSmall,
-                        )
-                      ],
+                                  .textTheme.titleSmall
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.copyWith(
+                                          color:Color.fromARGB(255, 126, 122, 122)),
+                            )
+                          ],
                     ),
                     Spacer(),
                     InkWell(

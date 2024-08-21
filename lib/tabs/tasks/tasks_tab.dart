@@ -1,25 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
-import 'package:todo_app/models/task_model.dart';
+import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/tasks_item.dart';
 import 'package:todo_app/tabs/tasks/tasks_provider.dart';
 
 class TasksTab extends StatelessWidget {
+  const TasksTab({super.key});
+
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TasksProvider tasksProvider = Provider.of<TasksProvider>(context);
     return Column(children: [
       Column(
         children: [
-          // SizedBox(
-          //   height: 20,
-          // ),
           Stack(
             children: [
               Container(color: AppTheme.primary, height: 150),
@@ -32,49 +28,110 @@ class TasksTab extends StatelessWidget {
                           .titleMedium
                           ?.copyWith(color: AppTheme.white, fontSize: 28))),
               Padding(
-                padding: const EdgeInsets.only(top:110),
+                padding: const EdgeInsets.only(top: 110),
                 child: EasyInfiniteDateTimeLine(
                     dayProps: EasyDayProps(
                         height: 80,
                         width: 60,
+                        todayStyle: DayStyle(
+                            dayNumStyle:
+                                tasksProvider.selectedDate == DateTime.now()
+                                    ? TextStyle(
+                                        color: AppTheme.primary,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      )
+                                    : TextStyle(
+                                        color: settingsProvider.isDark
+                                            ? AppTheme.white
+                                            : AppTheme.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                            dayStrStyle:
+                                tasksProvider.selectedDate == DateTime.now()
+                                    ? TextStyle(
+                                        color: AppTheme.primary,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600,
+                                      )
+                                    : TextStyle(
+                                        color: settingsProvider.isDark
+                                            ? AppTheme.white
+                                            : AppTheme.black,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                            monthStrStyle:
+                                tasksProvider.selectedDate == DateTime.now()
+                                    ? TextStyle(
+                                        color: AppTheme.primary,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      )
+                                    : TextStyle(
+                                        color: settingsProvider.isDark
+                                            ? AppTheme.white
+                                            : AppTheme.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                            decoration: BoxDecoration(
+                                color: settingsProvider.isDark
+                                    ? AppTheme.black
+                                    : AppTheme.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  width: 2,
+                                  color: settingsProvider.isDark
+                                      ? AppTheme.white
+                                      : AppTheme.black,
+                                ))),
                         activeDayStyle: DayStyle(
                             monthStrStyle: TextStyle(
-                              color:AppTheme.primary,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20
-                            ),
-                            dayNumStyle: TextStyle(
-                                color:AppTheme.primary,
-                                fontSize: 28,
-                                fontWeight: FontWeight.w700
-                              ),
-                              dayStrStyle: TextStyle(
-                                color:AppTheme.primary,
+                                color: AppTheme.primary,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 20
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppTheme.white,
+                                fontSize: 20),
+                            dayNumStyle: TextStyle(
+                                color: AppTheme.primary,
+                                fontSize: 28,
+                                fontWeight: FontWeight.w700),
+                            dayStrStyle: TextStyle(
+                                color: AppTheme.primary,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20),
+                            decoration: BoxDecoration(
+                                color: settingsProvider.isDark
+                                    ? AppTheme.black
+                                    : AppTheme.white,
                                 borderRadius: BorderRadius.circular(5))),
                         inactiveDayStyle: DayStyle(
-                              dayNumStyle: TextStyle(
+                            dayNumStyle: TextStyle(
+                                color: settingsProvider.isDark
+                                    ? AppTheme.white
+                                    : AppTheme.black,
                                 fontSize: 25,
-                                fontWeight: FontWeight.w600
-                              ),
-                              dayStrStyle: TextStyle(
+                                fontWeight: FontWeight.w600),
+                            dayStrStyle: TextStyle(
+                                color: settingsProvider.isDark
+                                    ? AppTheme.white
+                                    : AppTheme.black,
                                 fontWeight: FontWeight.w300,
-                                fontSize: 20
-                              ),
-                              monthStrStyle: TextStyle(
+                                fontSize: 20),
+                            monthStrStyle: TextStyle(
+                                color: settingsProvider.isDark
+                                    ? AppTheme.white
+                                    : AppTheme.black,
                                 fontWeight: FontWeight.w300,
-                                fontSize: 20
-                              ),  
-                          decoration: BoxDecoration(
-                                color: Colors.white,
+                                fontSize: 20),
+                            decoration: BoxDecoration(
+                                color: settingsProvider.isDark
+                                    ? AppTheme.black
+                                    : AppTheme.white,
                                 borderRadius: BorderRadius.circular(5)))),
                     firstDate: DateTime.now().subtract(Duration(days: 50)),
                     focusDate: tasksProvider.selectedDate,
-                    lastDate: DateTime.now().add(Duration(days: 30)),
+                    lastDate: DateTime.now().add(const Duration(days: 30)),
                     showTimelineHeader: false,
                     onDateChange: (selectedDate) {
                       tasksProvider.changeSelectedDate(selectedDate);
@@ -87,7 +144,7 @@ class TasksTab extends StatelessWidget {
       ),
       Expanded(
         child: ListView.builder(
-          padding: EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 20),
           itemBuilder: (context, index) => TaskItem(
             tasksProvider.tasks[index],
           ),

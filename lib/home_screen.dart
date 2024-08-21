@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/settings/settings_tab.dart';
 import 'package:todo_app/tabs/tasks/add_task_bottom_sheet.dart';
 import 'package:todo_app/tabs/tasks/tasks_tab.dart';
@@ -17,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> tabs = [TasksTab(), SettingsTab()];
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: tabs[currentTabIndex],
       bottomNavigationBar: BottomAppBar(
@@ -24,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         notchMargin: 10,
         padding: EdgeInsets.zero,
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        color: AppTheme.white,
+        color:AppTheme.white,
         child: BottomNavigationBar(
             currentIndex: currentTabIndex,
             onTap: (index) {
