@@ -32,8 +32,8 @@ class _EditTaskState extends State<EditTask> {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TextFieldArgs args =
         ModalRoute.of(context)!.settings.arguments as TextFieldArgs;
-    titleControl.text = args.title;
-    descriptionControl.text = args.desc;
+    if(titleControl.text.isEmpty) titleControl.text = args.title;
+    if(descriptionControl.text.isEmpty)descriptionControl.text = args.desc;
     widget.id=args.id;
     widget.selectedDate=args.date;
     return SafeArea(
