@@ -42,7 +42,7 @@ class _EditTaskState extends State<EditTask> {
           centerTitle: true,
           foregroundColor: AppTheme.white,
           backgroundColor: AppTheme.primary,
-          title: Text("To Do List",
+          title: Text(AppLocalizations.of(context)!.todoList,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
