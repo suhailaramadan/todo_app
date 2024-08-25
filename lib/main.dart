@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/auth/login_screen.dart';
+import 'package:todo_app/auth/register_screen.dart';
 import 'package:todo_app/home_screen.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/edit_task.dart';
@@ -37,12 +39,14 @@ class TodoApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
-        EditTask.routeName:(context) =>EditTask()
+        EditTask.routeName:(context) =>EditTask(),
+        LoginScreen.routeName:(context) => LoginScreen(),
+        RegisterScreen.routeName:(context) => RegisterScreen()
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(settingsProvider.Language),
-      initialRoute: HomeScreen.routeName,
+      initialRoute: RegisterScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: settingsProvider.themeMode,
