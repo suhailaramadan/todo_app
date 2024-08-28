@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/auth/register_screen.dart';
+import 'package:todo_app/auth/user_provider.dart';
+import 'package:todo_app/firebase_functions.dart';
+import 'package:todo_app/home_screen.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
 import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
@@ -23,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        // automaticallyImplyLeading :false,
+        automaticallyImplyLeading :false,
         title: Text(
           "Login",
         ),
@@ -63,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 80,
               ),
-              DefaultElevatedBottom(lable: "Login", onPressed: () {}),
+              DefaultElevatedBottom(lable: "Login", onPressed: login),
               SizedBox(
                 height: 30,
               ),
@@ -86,6 +91,27 @@ class _LoginScreenState extends State<LoginScreen> {
     
   }
   void login(){
-    if(formKey.currentState!.validate()){}
+    if (formKey.currentState!.validate()) {
+      FirebaseFunctions.login(
+          email: emailControl.text,
+          password: passwordControl.text
+          ).then((user){
+          Provider.of<UserProvider>(context,listen: false).updateUser(user);
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          }).catchError((error){
+            String? massage;
+            if(error is FirebaseAuthException){
+              massage=error.message;
+            }
+            Fluttertoast.showToast(
+              msg:massage?? "Something went wrong",
+              textColor: AppTheme.white,
+              timeInSecForIosWeb: 5,
+              toastLength: Toast.LENGTH_LONG,
+              backgroundColor: AppTheme.red,
+              fontSize: 16
+              );
+          });
+    }
   }
 }

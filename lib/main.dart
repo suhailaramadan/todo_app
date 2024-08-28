@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
 import 'package:todo_app/auth/login_screen.dart';
 import 'package:todo_app/auth/register_screen.dart';
+import 'package:todo_app/auth/user_provider.dart';
 import 'package:todo_app/home_screen.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/edit_task.dart';
@@ -13,19 +14,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseFirestore.instance.disableNetwork;
-  FirebaseFirestore.instance.settings =
-      Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(
     
         MultiProvider(providers: 
         [ChangeNotifierProvider(
         create: (_) =>
-          TasksProvider()..getTasks(),),
+          TasksProvider()),
           ChangeNotifierProvider(
             create:(_)=>
-            SettingsProvider()
-          )],
+            SettingsProvider()),
+          ChangeNotifierProvider(
+            create:(_)=>
+            UserProvider())
+          ],
           child: TodoApp()));
 }
 
@@ -46,7 +47,7 @@ class TodoApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(settingsProvider.Language),
-      initialRoute: RegisterScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: settingsProvider.themeMode,

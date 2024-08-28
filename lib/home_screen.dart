@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> tabs = [TasksTab(), SettingsTab()];
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: tabs[currentTabIndex],
       bottomNavigationBar: BottomAppBar(
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
         notchMargin: 10,
         padding: EdgeInsets.zero,
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        color:AppTheme.white,
+        color: AppTheme.white,
         child: BottomNavigationBar(
             currentIndex: currentTabIndex,
             onTap: (index) {
@@ -48,8 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>showModalBottomSheet(builder: (_)=>AddTaskBottomSheet(),context: context),
-        child: Icon(Icons.add,size: 32,),
+        onPressed: () => showModalBottomSheet(
+            builder: (_) => AddTaskBottomSheet(),
+            context: context,
+            isScrollControlled: true),
+        child: Icon(
+          Icons.add,
+          size: 32,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

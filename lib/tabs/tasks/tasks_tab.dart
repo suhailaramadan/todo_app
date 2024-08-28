@@ -2,17 +2,32 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/auth/user_provider.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/tasks_item.dart';
 import 'package:todo_app/tabs/tasks/tasks_provider.dart';
-
-class TasksTab extends StatelessWidget {
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+class TasksTab extends StatefulWidget {
   const TasksTab({super.key});
 
+  @override
+  State<TasksTab> createState() => _TasksTabState();
+}
+
+class _TasksTabState extends State<TasksTab> {
+  bool shouldGetTasks=true;
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TasksProvider tasksProvider = Provider.of<TasksProvider>(context);
+    final userId=Provider.of<UserProvider>(context,listen: false).currentUser!.id;
+    
+    if(shouldGetTasks){
+      tasksProvider.getTasks(userId);
+      setState(() {
+        shouldGetTasks=false;
+      });
+      }
     return Column(children: [
       Column(
         children: [
@@ -23,7 +38,7 @@ class TasksTab extends StatelessWidget {
                   top: 30,
                   start: 150,
                   child: Align(
-                    child: Text("To Do List",
+                    child: Text(AppLocalizations.of(context)!.todoList,
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
@@ -138,7 +153,7 @@ class TasksTab extends StatelessWidget {
                     showTimelineHeader: false,
                     onDateChange: (selectedDate) {
                       tasksProvider.changeSelectedDate(selectedDate);
-                      tasksProvider.getTasks();
+                      tasksProvider.getTasks(userId);
                     }),
               )
             ],

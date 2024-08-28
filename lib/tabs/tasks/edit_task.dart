@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/app_theme.dart';
+import 'package:todo_app/auth/user_provider.dart';
 import 'package:todo_app/firebase_functions.dart';
 import 'package:todo_app/models/task_model.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
@@ -42,7 +43,7 @@ class _EditTaskState extends State<EditTask> {
           centerTitle: true,
           foregroundColor: AppTheme.white,
           backgroundColor: AppTheme.primary,
-          title: Text("To Do List",
+          title: Text(AppLocalizations.of(context)!.todoList,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
@@ -87,8 +88,8 @@ class _EditTaskState extends State<EditTask> {
                           SizedBox(height: 1),
                           DefaultTextFormField(
                             controller: descriptionControl,
-                            maxLine: 5,
-                          ),
+                            maxLine: 5, 
+                          ),                          
                           SizedBox(
                             height: 20,
                           ),
@@ -153,15 +154,16 @@ class _EditTaskState extends State<EditTask> {
   }
 
   void editTask() {
+    final userId=Provider.of<UserProvider>(context,listen: false).currentUser!.id;
     FirebaseFunctions.editTaskInFirestore(
       TaskModel(
           id: widget.id,
           title: titleControl.text,
           date: widget.selectedDate,
-          description: descriptionControl.text),
+          description: descriptionControl.text),userId
     ).timeout(Duration(microseconds: 500), onTimeout: () {
       Navigator.of(context).pop();
-      Provider.of<TasksProvider>(context, listen: false).getTasks();
+      Provider.of<TasksProvider>(context, listen: false).getTasks(userId);
       Fluttertoast.showToast(
           msg:AppLocalizations.of(context)!.msgEdit,
           toastLength: Toast.LENGTH_LONG,

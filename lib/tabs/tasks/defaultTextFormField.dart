@@ -51,7 +51,7 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
       ),
       maxLines: widget.maxLine,
       validator: widget.validator,
-      obscureText:!isObscure,
+      obscureText:isObscure,
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }

@@ -20,7 +20,7 @@ class TaskModel{
       date: (json["date"] as Timestamp).toDate(),
       isDone: json["isDone"],    
       );
-    Map<String,dynamic> toJeson()=>{
+    Map<String,dynamic> toJson()=>{
     "id":id,
     "title":title,
     "description":description,

@@ -12,5 +12,6 @@
     "validateDesc":"Description can not be empty",
     "msgAdd":"Task added successfully",
     "msgEdit":"Task edited",
-    "msgWrong":"Something went wrong!"
+    "msgWrong":"Something went wrong!",
+    "todoList":"To Do List"
 }
