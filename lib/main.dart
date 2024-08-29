@@ -17,12 +17,12 @@ void main() async {
   runApp(
     
         MultiProvider(providers: 
-        [ChangeNotifierProvider(
+        [ ChangeNotifierProvider(
+            create:(_)=>
+            SettingsProvider()..loadTheme()..loadLang()),
+          ChangeNotifierProvider(
         create: (_) =>
           TasksProvider()),
-          ChangeNotifierProvider(
-            create:(_)=>
-            SettingsProvider()),
           ChangeNotifierProvider(
             create:(_)=>
             UserProvider())
