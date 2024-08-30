@@ -13,5 +13,15 @@
     "msgAdd":"Task added successfully",
     "msgEdit":"Task edited",
     "msgWrong":"Something went wrong!",
-    "todoList":"To Do List"
+    "todoList":"To Do List",
+    "login":"Login",
+    "register":"Create Account",
+    "haveAccount":"Already have an account?",
+    "email":"Email",
+    "password":"Password",
+    "confirmPass":"Confirm Password",
+    "fullName":"Full Name",
+    "userName":"User Name",
+    "noAccount":"Dont't have any account?",
+    "logout":"Logout"
 }

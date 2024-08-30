@@ -9,7 +9,7 @@ import 'package:todo_app/firebase_functions.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todo_app/tabs/tasks/tasks_provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SettingsTab extends StatelessWidget {
   const SettingsTab({super.key});
   @override
@@ -104,7 +104,7 @@ class SettingsTab extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Logout",
+                    AppLocalizations.of(context)!.logout,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: settingsProvider.isDark
                             ? AppTheme.white

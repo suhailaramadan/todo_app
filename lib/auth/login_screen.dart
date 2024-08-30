@@ -10,7 +10,7 @@ import 'package:todo_app/home_screen.dart';
 import 'package:todo_app/tabs/settings/settings_provider.dart';
 import 'package:todo_app/tabs/tasks/defaultTextFormField.dart';
 import 'package:todo_app/tabs/tasks/default_elevated_bottom.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login";
   const LoginScreen({super.key});
@@ -26,64 +26,78 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading :false,
-        title: Text(
-          "Login",
-        ),
+    return Container(
+      
+      decoration: BoxDecoration(
+        color:settingsProvider.isDark?AppTheme.backgroundDark:AppTheme.backgroundLight,
+        image: DecorationImage(image: AssetImage("assets/images/background.png"),
+        fit:BoxFit.fill)
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              DefaultTextFormField(
-                controller: emailControl,
-                hintText: "Email",
-                validator: (value) {
-                    if(value==null||value.trim().length<6){
-                      return"Email can not be less than 6 char";
-                    }
-                    return null;
-                  },
-                
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        child: Scaffold(
+          backgroundColor:Colors.transparent,
+          appBar: AppBar(
+            automaticallyImplyLeading :false,
+            title: Text(
+              AppLocalizations.of(context)!.login,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(color:AppTheme.white,fontSize: 30),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DefaultTextFormField(
+                    controller: emailControl,
+                    label:AppLocalizations.of(context)!.email,
+                    validator: (value) {
+                        if(value==null||value.trim().length<6){
+                          return"Email can not be less than 6 char";
+                        }
+                        return null;
+                      },
+                    
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  DefaultTextFormField(
+                    controller: passwordControl,
+                    action: TextInputAction.done,
+                    label:AppLocalizations.of(context)!.password,
+                    validator: (value) {
+                        if(value==null||value.trim().length<8){
+                          return"Password can not be less than 8 char";
+                        }
+                        return null;
+                      },
+                    isPassword: true,
+                  ),
+                  SizedBox(
+                    height: 80,
+                  ),
+                  DefaultElevatedBottom(lable:AppLocalizations.of(context)!.login, onPressed: login),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(RegisterScreen.routeName);
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.noAccount,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(color: AppTheme.primary),
+                      ))
+                ],
               ),
-              SizedBox(
-                height: 30,
-              ),
-              DefaultTextFormField(
-                controller: passwordControl,
-                hintText: "Password",
-                validator: (value) {
-                    if(value==null||value.trim().length<8){
-                      return"Password can not be less than 8 char";
-                    }
-                    return null;
-                  },
-                isPassword: true,
-              ),
-              SizedBox(
-                height: 80,
-              ),
-              DefaultElevatedBottom(lable: "Login", onPressed: login),
-              SizedBox(
-                height: 30,
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacementNamed(RegisterScreen.routeName);
-                  },
-                  child: Text(
-                    "Don't have an account?",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(color: AppTheme.primary),
-                  ))
-            ],
+            ),
           ),
         ),
       ),

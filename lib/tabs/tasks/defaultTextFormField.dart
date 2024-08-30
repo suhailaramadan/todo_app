@@ -12,13 +12,19 @@ class DefaultTextFormField extends StatefulWidget {
       this.hintText,
       this.maxLine=1,
       this.validator,
-      this.isPassword=false
+      this.isPassword=false,
+      this.label,
+      this.type=TextInputType.text,
+      this.action=TextInputAction.next
       });
   final TextEditingController controller ;
   final String? hintText;
   final int maxLine;
   final String? Function(String?)? validator;
   final bool isPassword;
+  final String? label;
+  final TextInputType type;
+  final TextInputAction action;
 
   @override
   State<DefaultTextFormField> createState() => _DefaultTextFormFieldState();
@@ -30,11 +36,17 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return TextFormField(
+      textInputAction:widget.action,
+      keyboardType:widget.type,
       controller: widget.controller,
       style: TextStyle(
-        color: settingsProvider.isDark ? AppTheme.white : AppTheme.black,
+        color:AppTheme.white,
       ),
       decoration: InputDecoration(
+        labelText:widget.label,
+        labelStyle:Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w700,fontSize: 20,
+            color: settingsProvider.isDark ? AppTheme.white : AppTheme.black) ,
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w400,
@@ -46,7 +58,7 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
           },
           icon: Icon(isObscure
               ? Icons. visibility_outlined
-              : Icons.visibility_off_outlined ),
+              : Icons.visibility_off_outlined ,color:AppTheme.primary,),
         ):null,
       ),
       maxLines: widget.maxLine,
