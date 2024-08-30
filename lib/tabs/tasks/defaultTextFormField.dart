@@ -36,20 +36,28 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return TextFormField(
+      cursorColor: AppTheme.primary,
       textInputAction:widget.action,
       keyboardType:widget.type,
       controller: widget.controller,
-      style: TextStyle(
-        color:AppTheme.white,
+      style: TextStyle(fontSize: 20,
+        color:settingsProvider.isDark?AppTheme.white:AppTheme.black,
       ),
       decoration: InputDecoration(
+        hoverColor: AppTheme.primary,
+        
+        focusColor: AppTheme.primary,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(28)),
+        fillColor:settingsProvider.isDark?AppTheme.black: AppTheme.white,
+        filled: true,
         labelText:widget.label,
-        labelStyle:Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,fontSize: 20,
-            color: settingsProvider.isDark ? AppTheme.white : AppTheme.black) ,
+        labelStyle:
+        Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w800,fontSize: 20,
+            color: settingsProvider.isDark ? AppTheme.white : AppTheme.black),
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             color: settingsProvider.isDark ? AppTheme.white : AppTheme.black),
         suffixIcon:widget.isPassword? IconButton(
           onPressed: () {

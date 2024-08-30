@@ -23,5 +23,10 @@
     "fullName":"Full Name",
     "userName":"User Name",
     "noAccount":"Dont't have any account?",
-    "logout":"Logout"
+    "logout":"Logout",
+    "validateFullName":"Name can not be less than 3 char",
+    "validateUserName":"UserName can not be less than 3 char",
+    "validatePassword":"Password can not be less than 8 char",
+    "validateEmail":"Email can not be less than 6 char",
+    "validateconfirm":"Passwords don't match"
 }

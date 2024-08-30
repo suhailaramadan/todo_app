@@ -59,68 +59,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 50,),
+                        SizedBox(height: 140,),
                         DefaultTextFormField(
                           controller: nameControl,
                           type: TextInputType.name,
                           label: AppLocalizations.of(context)!.fullName,
                           validator: (value) {
                             if (value == null || value.trim().length < 3) {
-                              return "Name can not be less than 3 char";
+                              return AppLocalizations.of(context)!.validateFullName;
                             }
                             return null;
                           },
                         ),
+                        SizedBox(height: 8,),
                         DefaultTextFormField(
                           controller: userNameControl,
                           type: TextInputType.name,
                           label:AppLocalizations.of(context)!.userName,
                           validator: (value) {
                             if (value == null || value.trim().length < 3) {
-                              return "Name can not be less than 3 char";
+                              return AppLocalizations.of(context)!.validateUserName;
                             }
                             return null;
                           },
-                        ), 
+                        ),
+                        SizedBox(height: 8,),
                         DefaultTextFormField(
                           controller: emailControl,
                           type: TextInputType.emailAddress,
                           label:AppLocalizations.of(context)!.email,
                           validator: (value) {
                             if (value == null || value.trim().length < 6) {
-                              return "Email can not be less than 6 char";
+                              return AppLocalizations.of(context)!.validateEmail;
                             }
                             return null;
                           },
                         ),
+                        SizedBox(height: 8,),
                         DefaultTextFormField(
                           controller: passwordControl,
                           label:AppLocalizations.of(context)!.password,
                           validator: (value) {
                             if (value == null || value.trim().length < 8) {
-                              return "Password can not be less than 8 char";
+                              return AppLocalizations.of(context)!.validatePassword;
                             }
                             return null;
                           },
                           isPassword: true,
                         ),
+                        SizedBox(height: 8,),
                         DefaultTextFormField(
                           controller: confirmPassControl,
                           label:AppLocalizations.of(context)!.confirmPass,
                           action: TextInputAction.done,
                           validator: (value) {
                             if (value == null || value.trim().length < 8) {
-                              return "Password can not be less than 8 char";
+                              return AppLocalizations.of(context)!.validatePassword;
                             }
                             if(value!=passwordControl.text){
-                              return "Password don't match";
+                              return AppLocalizations.of(context)!.validateconfirm;
                             }
                             return null;
                           },
                           isPassword: true,
                         ),
                         SizedBox(
-                          height: 24,
+                          height: 20,
                         ),
                         DefaultElevatedBottom(
                             lable: AppLocalizations.of(context)!.register, onPressed: register),

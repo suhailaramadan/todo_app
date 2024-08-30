@@ -30,7 +30,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
       child: Padding(
         padding: EdgeInsets.only(bottom:MediaQuery.of(context).viewInsets.bottom),
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+          decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft:Radius.circular(20),topRight:Radius.circular(20)),
           color:settingsProvider.isDark?AppTheme.black:AppTheme.white ),
           height: MediaQuery.of(context).size.height * .6,
           padding: EdgeInsets.all(15),
@@ -55,6 +55,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     return null;
                   },
                 ),
+                SizedBox(height: 10,),
                 DefaultTextFormField(
                   controller: descriptionControl,
                   hintText:AppLocalizations.of(context)!.desc,
@@ -101,7 +102,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   ),
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 DefaultElevatedBottom(
                     lable:AppLocalizations.of(context)!.submit,

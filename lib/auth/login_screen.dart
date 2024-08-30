@@ -44,58 +44,62 @@ class _LoginScreenState extends State<LoginScreen> {
               style: Theme.of(context).textTheme.titleMedium?.copyWith(color:AppTheme.white,fontSize: 30),
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DefaultTextFormField(
-                    controller: emailControl,
-                    label:AppLocalizations.of(context)!.email,
-                    validator: (value) {
-                        if(value==null||value.trim().length<6){
-                          return"Email can not be less than 6 char";
-                        }
-                        return null;
-                      },
-                    
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Form(
+                key: formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DefaultTextFormField(
+                        controller: emailControl,
+                        label:AppLocalizations.of(context)!.email,
+                        validator: (value) {
+                            if(value==null||value.trim().length<6){
+                              return AppLocalizations.of(context)!.validateEmail;
+                            }
+                            return null;
+                          },
+                        
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      DefaultTextFormField(
+                        controller: passwordControl,
+                        action: TextInputAction.done,
+                        label:AppLocalizations.of(context)!.password,
+                        validator: (value) {
+                            if(value==null||value.trim().length<8){
+                              return AppLocalizations.of(context)!.validatePassword;
+                            }
+                            return null;
+                          },
+                        isPassword: true,
+                      ),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      DefaultElevatedBottom(lable:AppLocalizations.of(context)!.login, onPressed: login),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacementNamed(RegisterScreen.routeName);
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.noAccount,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: AppTheme.primary),
+                          ))
+                    ],
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  DefaultTextFormField(
-                    controller: passwordControl,
-                    action: TextInputAction.done,
-                    label:AppLocalizations.of(context)!.password,
-                    validator: (value) {
-                        if(value==null||value.trim().length<8){
-                          return"Password can not be less than 8 char";
-                        }
-                        return null;
-                      },
-                    isPassword: true,
-                  ),
-                  SizedBox(
-                    height: 80,
-                  ),
-                  DefaultElevatedBottom(lable:AppLocalizations.of(context)!.login, onPressed: login),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(RegisterScreen.routeName);
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.noAccount,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(color: AppTheme.primary),
-                      ))
-                ],
+                ),
               ),
             ),
           ),

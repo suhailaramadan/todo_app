@@ -85,7 +85,7 @@ class _EditTaskState extends State<EditTask> {
                             height: 10,
                           ),
                           DefaultTextFormField(controller: titleControl),
-                          SizedBox(height: 1),
+                          SizedBox(height: 10),
                           DefaultTextFormField(
                             controller: descriptionControl,
                             maxLine: 5, 
@@ -134,7 +134,7 @@ class _EditTaskState extends State<EditTask> {
                                             : AppTheme.black)),
                           ),
                           const SizedBox(
-                            height: 50,
+                            height: 30,
                           ),
                           DefaultElevatedBottom(
                             lable: AppLocalizations.of(context)!.change,
